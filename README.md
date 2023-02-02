@@ -3,7 +3,7 @@ This repository is an implementation of the required functions to get a ExVeCtr 
 Implemented classes are inside the namespace `VCTR::Platform`.
 ## **This project is under initial development. Things will probably break.**
 ## ToDo ##
-- [X] Implement Time base
-- [ ] Implement basic IO (GPIO, ADC, PWM, DAC).
+- [X] Implement time base.
+- [X] Implement basic IO (GPIO, ADC, PWM, DAC).
 - [ ] Implement basic Bus (I2C, SPI, Serial).
 - [ ] Documentation.
