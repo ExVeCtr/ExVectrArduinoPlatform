@@ -6,28 +6,28 @@
 using namespace VCTR::Platform;
 
 
-HAL_PinADC::HAL_PinADC() {
+PinADC::PinADC() {
     pin_ = -1;
     res_ = 10;
 }
 
-void HAL_PinADC::init(int32_t pin) {
+void PinADC::init(int32_t pin) {
     pinMode(pin, INPUT);
 }
 
-int32_t HAL_PinADC::getPin() {
+int32_t PinADC::getPin() {
     return pin_;
 }
 
-int32_t HAL_PinADC::getPinValue() {
+int32_t PinADC::getPinValue() {
     return analogRead(pin_);
 }
 
-void HAL_PinADC::setPinResolution(uint32_t value) {
+void PinADC::setPinResolution(uint32_t value) {
     res_ = value;
     analogReadResolution(value);
 }
 
-uint32_t HAL_PinADC::getPinResolution() {
+uint32_t PinADC::getPinResolution() {
     return res_;
 }

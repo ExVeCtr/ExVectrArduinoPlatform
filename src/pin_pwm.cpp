@@ -6,25 +6,25 @@
 using namespace VCTR::Platform;
 
 
-uint32_t HAL_PinPWM::res_ = 8;
+uint32_t PinPWM::res_ = 8;
 
 
-HAL_PinPWM::HAL_PinPWM() {
+PinPWM::PinPWM() {
     pin_ = -1;
     value_ = 0;
 }
 
-void HAL_PinPWM::init(int32_t pin) {
+void PinPWM::init(int32_t pin) {
     pin_ = pin;
     pinMode(pin_, OUTPUT);
     analogWrite(pin_, 0);
 }
 
-int32_t HAL_PinPWM::getPin() {
+int32_t PinPWM::getPin() {
     return pin_;
 }
 
-void HAL_PinPWM::setPinValue(float value) {
+void PinPWM::setPinValue(float value) {
     value_ = value;
 
     if (value_ > 1.0) value_ = 1.0f;
@@ -33,24 +33,24 @@ void HAL_PinPWM::setPinValue(float value) {
     analogWrite(pin_, value_*(1<<getPinResolution()));
 }
 
-float HAL_PinPWM::getPinValue() {
+float PinPWM::getPinValue() {
     return value_;
 }
 
-void HAL_PinPWM::setPinFrequency(float value) {
+void PinPWM::setPinFrequency(float value) {
     freq_ = value;
     analogWriteFrequency(pin_, freq_);
 }
 
-float HAL_PinPWM::getPinFrequency() {
+float PinPWM::getPinFrequency() {
     return freq_;
 }
 
-void HAL_PinPWM::setPinResolution(uint32_t value) {
+void PinPWM::setPinResolution(uint32_t value) {
     res_ = value;
     analogWriteResolution(res_);
 }
 
-uint32_t HAL_PinPWM::getPinResolution() {
+uint32_t PinPWM::getPinResolution() {
     return res_;
 }

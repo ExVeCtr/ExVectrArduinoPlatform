@@ -15,7 +15,7 @@ namespace Platform
     /**
      * @brief Arduino implementation of ADC.
     */
-    class HAL_PinADC final : public VCTR::Interface::HAL_PinADC
+    class PinADC final : public VCTR::HAL::PinADC
     {
     private:
 
@@ -24,7 +24,7 @@ namespace Platform
 
     public:
 
-        HAL_PinADC();
+        PinADC();
 
         /**
          * Initialises ADC input.

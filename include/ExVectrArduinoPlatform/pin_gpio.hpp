@@ -15,7 +15,7 @@ namespace Platform
     /**
      * @brief Arduino implementation of GPIO.
     */
-    class HAL_PinGPIO final : public VCTR::Interface::HAL_PinGPIO
+    class PinGPIO final : public VCTR::HAL::PinGPIO
     {
     private:
 
@@ -27,7 +27,7 @@ namespace Platform
 
     public:
 
-        HAL_PinGPIO();
+        PinGPIO();
 
         /**
          * Initialises GPIO.

@@ -16,7 +16,7 @@ namespace Platform
      * @brief Arduino implementation of PWM output.
      * @note All pins use the same resolution!
     */
-    class HAL_PinPWM final : public VCTR::Interface::HAL_PinPWM
+    class PinPWM final : public VCTR::HAL::PinPWM
     {
     private:
 
@@ -27,7 +27,7 @@ namespace Platform
 
     public:
 
-        HAL_PinPWM();
+        PinPWM();
 
         /**
          * Initialises PWM output.

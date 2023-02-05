@@ -6,11 +6,11 @@
 using namespace VCTR::Platform;
 
 
-HAL_PinGPIO::HAL_PinGPIO() {
+PinGPIO::PinGPIO() {
     pin_ = -1;
 }
 
-void HAL_PinGPIO::init(int32_t pin, GPIO_IOMODE_t mode) {
+void PinGPIO::init(int32_t pin, GPIO_IOMODE_t mode) {
 
     pin_ = pin;
 
@@ -23,11 +23,11 @@ void HAL_PinGPIO::init(int32_t pin, GPIO_IOMODE_t mode) {
 
 }
 
-int32_t HAL_PinGPIO::getPin() {
+int32_t PinGPIO::getPin() {
     return pin_;
 }
 
-void HAL_PinGPIO::setPinValue(bool value) {
+void PinGPIO::setPinValue(bool value) {
     if (ioMode_ != GPIO_IOMODE_t::IOMODE_OUTPUT) return;
     if (currentValue_ != value) {
         currentValue_ = value;
@@ -35,7 +35,7 @@ void HAL_PinGPIO::setPinValue(bool value) {
     }
 }
 
-bool HAL_PinGPIO::getPinValue() {
+bool PinGPIO::getPinValue() {
     if (ioMode_ == GPIO_IOMODE_t::IOMODE_OUTPUT) {
         return currentValue_;
     } else {
@@ -43,16 +43,16 @@ bool HAL_PinGPIO::getPinValue() {
     }
 }
 
-void HAL_PinGPIO::setPinMode(GPIO_IOMODE_t mode) {
+void PinGPIO::setPinMode(GPIO_IOMODE_t mode) {
     ioMode_ = mode;
     pinMode(pin_, ioMode_ == GPIO_IOMODE_t::IOMODE_OUTPUT ? OUTPUT : INPUT);
 }
 
-VCTR::GPIO_IOMODE_t HAL_PinGPIO::getPinMode() {
+VCTR::GPIO_IOMODE_t PinGPIO::getPinMode() {
     return ioMode_;
 }
 
-void HAL_PinGPIO::setPinPull(GPIO_PULL_t pull) {
+void PinGPIO::setPinPull(GPIO_PULL_t pull) {
     if (ioMode_ != GPIO_IOMODE_t::IOMODE_INPUT) return;
 
     #ifdef INPUT_PULLUP
@@ -71,7 +71,7 @@ void HAL_PinGPIO::setPinPull(GPIO_PULL_t pull) {
 
 }
 
-VCTR::GPIO_PULL_t HAL_PinGPIO::getPinPull() {
+VCTR::GPIO_PULL_t PinGPIO::getPinPull() {
     return pinPull_;
 }
 
