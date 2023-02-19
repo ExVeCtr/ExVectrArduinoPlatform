@@ -13,7 +13,7 @@ int32_t BusSPIDevice::writable() {
     return -1;
 }
 
-size_t BusSPIDevice::writeData(const void* data, size_t size) {
+size_t BusSPIDevice::writeData(const void* data, size_t size, bool endTransfer) {
 
     //Needed because arduino spi function does not support const void* parameter.      ):
     uint8_t buffer[size];
@@ -23,9 +23,11 @@ size_t BusSPIDevice::writeData(const void* data, size_t size) {
 
     bus_.beginTransaction(spiSettings_);
     bus_.transfer(buffer, size);
-    bus_.endTransaction();
     
-    pin_.setPinValue(pinInvert_);
+    if (endTransfer) {
+        bus_.endTransaction();
+        pin_.setPinValue(pinInvert_);
+    }
 
     return size;
 
@@ -35,33 +37,50 @@ size_t BusSPIDevice::readable() {
     return 1;
 }
 
-size_t BusSPIDevice::readData(void* data, size_t size) {
+size_t BusSPIDevice::readData(void* data, size_t size, bool endTransfer) {
 
     pin_.setPinValue(!pinInvert_);
 
     bus_.beginTransaction(spiSettings_);
     bus_.transfer(data, size);
-    bus_.endTransaction();
     
-    pin_.setPinValue(pinInvert_);
+    if (endTransfer) {
+        bus_.endTransaction();
+        pin_.setPinValue(pinInvert_);
+    }
 
     return size;
 
 }
 
-bool BusSPIDevice::writeRead(const void* writeBuf, void* readBuf, size_t writeSize, size_t readSize) {
+bool BusSPIDevice::writeRead(const void* writeBuf, void* readBuf, size_t writeSize, size_t readSize, bool endTransfer) {
 
-    uint8_t buffer[writeSize];
-    memcpy(buffer, writeBuf, writeSize);
+    size_t smallest = writeSize;
+    size_t largest = readSize;
+    if (smallest < readSize) {
+        smallest = readSize;
+        largest = writeSize;
+    }
+
+    size_t rest = largest - smallest;
 
     pin_.setPinValue(!pinInvert_);
 
     bus_.beginTransaction(spiSettings_);
-    bus_.transfer(buffer, writeSize);
-    bus_.transfer(readBuf, readSize);
-    bus_.endTransaction();
+    bus_.transfer(writeBuf, readBuf, smallest);
+
+    if (writeSize > readSize) {
+        uint8_t buffer[rest];
+        memcpy(buffer, writeBuf + smallest, writeSize);
+        bus_.transfer(buffer, rest);
+    } else if (readSize > writeSize) {
+        bus_.transfer(readBuf + smallest, rest);
+    }
     
-    pin_.setPinValue(pinInvert_);
+    if (endTransfer) {
+        bus_.endTransaction();
+        pin_.setPinValue(pinInvert_);
+    }
 
     return true;
 

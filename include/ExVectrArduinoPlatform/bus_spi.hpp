@@ -26,12 +26,6 @@ namespace Platform
         SPISettings spiSettings_;
         bool pinInvert_ = false;
 
-        //Command to read data from device. Temporary, not sure if for all systems correct.
-        uint8_t readCommand_ = 0x80;
-
-        //Command to write data to device. Temporary, not sure if for all systems correct.
-        uint8_t writeCommand_ = 0x00;
-
     public:
 
         BusSPIDevice(SPIClass& bus, const SPISettings& spiSettings, VCTR::HAL::PinGPIO& pin, bool invertSelectPin);
@@ -45,10 +39,11 @@ namespace Platform
          * @brief Writes the data from data pointer.
          * @param data Pointer to data.
          * @param bytes Number of bytes to output.
+         * @param endTransfer Set to false if doing mulitple writes. Last write should have endTransfer set to true.
          * 
          * @return number of bytes actually written.
         */
-        size_t writeData(const void* data, size_t size) override;
+        size_t writeData(const void* data, size_t size, bool endTransfer = true) override;
 
         /**
          * @returns the number of bytes available to read. Or 1 or 0 for boolean.
@@ -59,10 +54,11 @@ namespace Platform
          * @brief Reads the data and places it into the given data pointer.
          * @param data Pointer to where to place read data.
          * @param bytes Number of bytes to read. Will be limited to this number.
+         * @param endTransfer Set to false if doing mulitple reads. Last read should have endTransfer set to true.
          * 
          * @return number of bytes actually read and placed into data pointer.
         */
-        size_t readData(void* data, size_t size) override;
+        size_t readData(void* data, size_t size, bool endTransfer = true) override;
 
         /**
          * @brief writes bytes then reads bytes to IO.
@@ -70,10 +66,11 @@ namespace Platform
          * @param readBuf Pointer to data to read to.
          * @param writeSize Number of bytes to write.
          * @param readSize Number of bytes to read.
+         * @param endTransfer Frees the IO for other devices. Set to false for higher read write speed. Last call should end the transfer!
          * 
          * @return true if writing and reading was successfull.
         */
-        bool writeRead(const void* writeBuf, void* readBuf, size_t writeSize, size_t readSize) override;
+        bool writeRead(const void* writeBuf, void* readBuf, size_t writeSize, size_t readSize, bool endTransfer = true) override;
 
     };
 

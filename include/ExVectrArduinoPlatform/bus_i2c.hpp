@@ -1,8 +1,8 @@
 #ifndef EXVECTRARDUINOPLATFORM_BUSI2C_H
 #define EXVECTRARDUINOPLATFORM_BUSI2C_H
 
-#include "Wire.h"
 #include "stdint.h"
+#include "Wire.h"
 
 #include "ExVectrHAL/io.hpp"
 
@@ -36,10 +36,11 @@ namespace Platform
          * @brief Writes the data from data pointer.
          * @param data Pointer to data.
          * @param bytes Number of bytes to output.
+         * @param endTransfer Set to false if doing mulitple writes. Last write should have endTransfer set to true.
          * 
          * @return number of bytes actually written.
         */
-        size_t writeData(const void* data, size_t size) override;
+        size_t writeData(const void* data, size_t size, bool endTransfer = true) override;
 
         /**
          * @returns the number of bytes available to read. Or 1 or 0 for boolean.
@@ -53,7 +54,7 @@ namespace Platform
          * 
          * @return number of bytes actually read and placed into data pointer.
         */
-        size_t readData(void* data, size_t size) override;
+        size_t readData(void* data, size_t size, bool endTransfer = true) override;
 
     };
 
