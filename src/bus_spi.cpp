@@ -1,63 +1,150 @@
-#include "ExVectrArduinoPlatform/bus_spi.hpp"
+#include "ExVectrCore/print.hpp"
 
+#include "ExVectrArduinoPlatform/bus_spi.hpp"
 
 using namespace VCTR::Platform;
 
+VCTR::HAL::IO_TYPE_t BusSPIDevice::getInputType() const
+{
+    return HAL::IO_TYPE_t::BUS_SPI;
+}
 
-BusSPIDevice::BusSPIDevice(SPIClass& bus, const SPISettings& spiSettings, VCTR::HAL::PinGPIO& pin, bool invertSelectPin): bus_(bus), pin_(pin) {
+bool BusSPIDevice::setInputParam(HAL::IO_PARAM_t param, int32_t value)
+{
+    switch (param)
+    {
+    case HAL::IO_PARAM_t::PARAM_SPEED :
+        speed_ = value;
+        return true;
+        break;
+
+    case HAL::IO_PARAM_t::PARAM_MSBFIRST :
+        msbFirst_ = value;
+        return true;
+        break;
+
+    case HAL::IO_PARAM_t::PARAM_SPIMODE :
+
+        if (value == 0) spiMode_ = SPI_MODE0;
+        else if (value == 1) spiMode_ = SPI_MODE1;
+        else if (value == 2) spiMode_ = SPI_MODE2;
+        else if (value == 3) spiMode_ = SPI_MODE3;
+        else {
+            Core::printE("SPI Busdevice had incorrect input param value for SPI mode. Param value:%d.\n", value);
+        }
+
+        return true;
+        break;
+    
+    default:
+        Core::printE("SPI Busdevice had incorrect input param type change. Param type: %d, Value:%d.\n", param, value);
+        break;
+    }
+    return false;
+}
+
+VCTR::HAL::IO_TYPE_t BusSPIDevice::getOutputType() const
+{
+    return HAL::IO_TYPE_t::BUS_SPI;
+}
+
+bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
+{
+    switch (param)
+    {
+    case HAL::IO_PARAM_t::PARAM_SPEED :
+        speed_ = value;
+        return true;
+        break;
+
+    case HAL::IO_PARAM_t::PARAM_MSBFIRST :
+        msbFirst_ = value;
+        return true;
+        break;
+
+    case HAL::IO_PARAM_t::PARAM_SPIMODE :
+
+        if (value == 0) spiMode_ = SPI_MODE0;
+        else if (value == 1) spiMode_ = SPI_MODE1;
+        else if (value == 2) spiMode_ = SPI_MODE2;
+        else if (value == 3) spiMode_ = SPI_MODE3;
+        else {
+            Core::printE("SPI Busdevice had incorrect input param value for SPI mode. Param value:%d.\n", value);
+        }
+
+        return true;
+        break;
+    
+    default:
+        Core::printE("SPI Busdevice had incorrect input param type change. Param type: %d, Value:%d.\n", param, value);
+        break;
+    }
+    return false;
+}
+
+BusSPIDevice::BusSPIDevice(SPIClass &bus, const SPISettings &spiSettings, VCTR::HAL::PinGPIO &pin, bool invertSelectPin) : bus_(bus), pin_(pin)
+{
     spiSettings_ = spiSettings;
     pinInvert_ = invertSelectPin;
 }
 
-int32_t BusSPIDevice::writable() {
+int32_t BusSPIDevice::writable()
+{
     return -1;
 }
 
-size_t BusSPIDevice::writeData(const void* data, size_t size, bool endTransfer) {
+size_t BusSPIDevice::writeData(const void *data, size_t size, bool endTransfer)
+{
 
-    //Needed because arduino spi function does not support const void* parameter.      ):
+    // Needed because arduino spi function does not support const void* parameter.      ):
     uint8_t buffer[size];
     memcpy(buffer, data, size);
 
     pin_.setPinValue(!pinInvert_);
 
+    spiSettings_ = SPISettings{speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_};
     bus_.beginTransaction(spiSettings_);
     bus_.transfer(buffer, size);
-    
-    if (endTransfer) {
+
+    if (endTransfer)
+    {
         bus_.endTransaction();
         pin_.setPinValue(pinInvert_);
     }
 
     return size;
-
 }
 
-size_t BusSPIDevice::readable() {
+size_t BusSPIDevice::readable()
+{
     return 1;
 }
 
-size_t BusSPIDevice::readData(void* data, size_t size, bool endTransfer) {
+size_t BusSPIDevice::readData(void *data, size_t size, bool endTransfer)
+{
 
     pin_.setPinValue(!pinInvert_);
 
+    spiSettings_ = SPISettings{speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_};
     bus_.beginTransaction(spiSettings_);
     bus_.transfer(data, size);
-    
-    if (endTransfer) {
+
+    if (endTransfer)
+    {
         bus_.endTransaction();
         pin_.setPinValue(pinInvert_);
     }
 
     return size;
-
 }
 
-bool BusSPIDevice::writeRead(const void* writeBuf, void* readBuf, size_t writeSize, size_t readSize, bool endTransfer) {
+bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSize, size_t readSize, bool endTransfer)
+{
 
     size_t smallest = writeSize;
     size_t largest = readSize;
-    if (smallest < readSize) {
+    if (smallest < readSize)
+    {
         smallest = readSize;
         largest = writeSize;
     }
@@ -66,22 +153,26 @@ bool BusSPIDevice::writeRead(const void* writeBuf, void* readBuf, size_t writeSi
 
     pin_.setPinValue(!pinInvert_);
 
+    spiSettings_ = SPISettings{speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_};
     bus_.beginTransaction(spiSettings_);
     bus_.transfer(writeBuf, readBuf, smallest);
 
-    if (writeSize > readSize) {
+    if (writeSize > readSize)
+    {
         uint8_t buffer[rest];
         memcpy(buffer, writeBuf + smallest, writeSize);
         bus_.transfer(buffer, rest);
-    } else if (readSize > writeSize) {
+    }
+    else if (readSize > writeSize)
+    {
         bus_.transfer(readBuf + smallest, rest);
     }
-    
-    if (endTransfer) {
+
+    if (endTransfer)
+    {
         bus_.endTransaction();
         pin_.setPinValue(pinInvert_);
     }
 
     return true;
-
 }
