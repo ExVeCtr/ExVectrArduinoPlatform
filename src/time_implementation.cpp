@@ -12,7 +12,7 @@ public:
 
         static int32_t g_lastMicroseconds = 0;
         static int64_t g_currentTime = 0;
-        static bool lock = false; //Needed due to interrupts to make "thread safe" and protect data.
+        static volatile bool lock = false; //Needed due to interrupts to make "thread safe" and protect data.
         static VCTR::Core::Timestamped<int64_t> timeStamped;
 
         int32_t time = micros();

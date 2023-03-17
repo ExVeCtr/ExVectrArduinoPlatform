@@ -1,3 +1,5 @@
+#include "cstring"
+
 #include "ExVectrArduinoPlatform/bus_spi.hpp"
 
 
@@ -62,12 +64,14 @@ bool BusSPIDevice::writeRead(const void* writeBuf, void* readBuf, size_t writeSi
         largest = writeSize;
     }
 
+    memcpy(readBuf, writeBuf, smallest); //Need to do this due to the limited spi api from ESP32 arduino.
+
     size_t rest = largest - smallest;
 
     pin_.setPinValue(!pinInvert_);
 
     bus_.beginTransaction(spiSettings_);
-    bus_.transfer(writeBuf, readBuf, smallest);
+    bus_.transfer(readBuf, smallest);
 
     if (writeSize > readSize) {
         uint8_t buffer[rest];

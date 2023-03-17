@@ -4,7 +4,9 @@
 
 #include "ExVectrArduinoPlatform/pin_gpio.hpp"
 #include "ExVectrArduinoPlatform/pin_adc.hpp"
-#include "ExVectrArduinoPlatform/pin_pwm.hpp"
+#include "ExVectrArduinoPlatform/pwm_hw.hpp"
+#include "ExVectrArduinoPlatform/bus_i2c.hpp"
+#include "ExVectrArduinoPlatform/bus_spi.hpp"
 
 
 namespace VCTR
