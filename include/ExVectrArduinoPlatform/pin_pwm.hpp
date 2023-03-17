@@ -5,78 +5,73 @@
 
 #include "ExVectrHAL/pin_pwm.hpp"
 
-
 namespace VCTR
 {
 
-namespace Platform
-{
-
-    /**
-     * @brief Arduino implementation of PWM output.
-     * @note All pins use the same resolution!
-    */
-    class PinPWM final : public VCTR::HAL::PinPWM
+    namespace Platform
     {
-    private:
-
-        int pin_ = -1;
-        float value_ = 0;
-        static uint32_t res_;
-        float freq_ = 200;
-
-    public:
-
-        PinPWM();
 
         /**
-         * Initialises PWM output.
-         * @param pin Which pin to control.
+         * @brief Arduino implementation of PWM output.
+         * @note All pins use the same resolution!
          */
-        void init(int32_t pin) override;
+        class PinPWM final : public VCTR::HAL::PinPWM
+        {
+        private:
+            int pin_ = -1;
+            float value_ = 0;
+            static uint32_t res_;
+            float freq_ = 200;
 
-        /**
-         * @returns Which pin this controls.
-         */
-        int32_t getPin() override;
+        public:
+            PinPWM();
 
-        /**
-         * Sets pin value. Duty cycle from 0 to 1.
-         * @param value Which value to set pin to.
-         */
-        void setPinValue(float value) override;
+            /**
+             * Initialises PWM output.
+             * @param pin Which pin to control.
+             */
+            void init(int32_t pin) override;
 
-        /**
-         * @returns current pin value. Duty cycle from 0 to 1.
-         */
-        float getPinValue() override;
+            /**
+             * @returns Which pin this controls.
+             */
+            int32_t getPin() override;
 
-        /**
-         * Sets pwm frequency.
-         * @param value Which frequency [Hz] to set PWM to.
-         */
-        void setPinFrequency(float value) override;
+            /**
+             * Sets pin value. Duty cycle from 0 to 1.
+             * @param value Which value to set pin to.
+             */
+            void setPinValue(float value) override;
 
-        /**
-         * @returns current PWM Frequency.
-         */
-        float getPinFrequency() override;
+            /**
+             * @returns current pin value. Duty cycle from 0 to 1.
+             */
+            float getPinValue() override;
 
-        /**
-         * Sets pwm resolution.
-         * @param value Which resolution [bits] to set PWM to.
-         */
-        void setPinResolution(uint32_t value) override;
+            /**
+             * Sets pwm frequency.
+             * @param value Which frequency [Hz] to set PWM to.
+             */
+            void setPinFrequency(float value) override;
 
-        /**
-         * @returns current PWM resolution.
-         */
-        uint32_t getPinResolution() override;
+            /**
+             * @returns current PWM Frequency.
+             */
+            float getPinFrequency() override;
 
-    };
+            /**
+             * Sets pwm resolution.
+             * @param value Which resolution [bits] to set PWM to.
+             */
+            void setPinResolution(uint32_t value) override;
 
-    
-}
+            /**
+             * @returns current PWM resolution.
+             */
+            uint32_t getPinResolution() override;
+        };
+
+    }
 
 }
 
