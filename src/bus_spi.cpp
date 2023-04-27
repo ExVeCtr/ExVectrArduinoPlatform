@@ -13,29 +13,34 @@ bool BusSPIDevice::setInputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED :
+    case HAL::IO_PARAM_t::PARAM_SPEED:
         speed_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_MSBFIRST :
+    case HAL::IO_PARAM_t::PARAM_MSBFIRST:
         msbFirst_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_SPIMODE :
+    case HAL::IO_PARAM_t::PARAM_SPIMODE:
 
-        if (value == 0) spiMode_ = SPI_MODE0;
-        else if (value == 1) spiMode_ = SPI_MODE1;
-        else if (value == 2) spiMode_ = SPI_MODE2;
-        else if (value == 3) spiMode_ = SPI_MODE3;
-        else {
+        if (value == 0)
+            spiMode_ = SPI_MODE0;
+        else if (value == 1)
+            spiMode_ = SPI_MODE1;
+        else if (value == 2)
+            spiMode_ = SPI_MODE2;
+        else if (value == 3)
+            spiMode_ = SPI_MODE3;
+        else
+        {
             Core::printE("SPI Busdevice had incorrect input param value for SPI mode. Param value:%d.\n", value);
         }
 
         return true;
         break;
-    
+
     default:
         Core::printE("SPI Busdevice had incorrect input param type change. Param type: %d, Value:%d.\n", param, value);
         break;
@@ -52,29 +57,34 @@ bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED :
+    case HAL::IO_PARAM_t::PARAM_SPEED:
         speed_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_MSBFIRST :
+    case HAL::IO_PARAM_t::PARAM_MSBFIRST:
         msbFirst_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_SPIMODE :
+    case HAL::IO_PARAM_t::PARAM_SPIMODE:
 
-        if (value == 0) spiMode_ = SPI_MODE0;
-        else if (value == 1) spiMode_ = SPI_MODE1;
-        else if (value == 2) spiMode_ = SPI_MODE2;
-        else if (value == 3) spiMode_ = SPI_MODE3;
-        else {
+        if (value == 0)
+            spiMode_ = SPI_MODE0;
+        else if (value == 1)
+            spiMode_ = SPI_MODE1;
+        else if (value == 2)
+            spiMode_ = SPI_MODE2;
+        else if (value == 3)
+            spiMode_ = SPI_MODE3;
+        else
+        {
             Core::printE("SPI Busdevice had incorrect input param value for SPI mode. Param value:%d.\n", value);
         }
 
         return true;
         break;
-    
+
     default:
         Core::printE("SPI Busdevice had incorrect input param type change. Param type: %d, Value:%d.\n", param, value);
         break;
@@ -100,16 +110,26 @@ size_t BusSPIDevice::writeData(const void *data, size_t size, bool endTransfer)
     uint8_t buffer[size];
     memcpy(buffer, data, size);
 
-    pin_.setPinValue(!pinInvert_);
+    if (!inTransaction_)
+        pin_.setPinValue(!pinInvert_);
 
     spiSettings_ = SPISettings{speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_};
-    bus_.beginTransaction(spiSettings_);
+    if (!inTransaction_)
+        bus_.beginTransaction(spiSettings_);
+
+
     bus_.transfer(buffer, size);
 
     if (endTransfer)
     {
         bus_.endTransaction();
         pin_.setPinValue(pinInvert_);
+
+        inTransaction_ = false;
+    }
+    else
+    {
+        inTransaction_ = true;
     }
 
     return size;
@@ -123,16 +143,25 @@ size_t BusSPIDevice::readable()
 size_t BusSPIDevice::readData(void *data, size_t size, bool endTransfer)
 {
 
-    pin_.setPinValue(!pinInvert_);
+    if (!inTransaction_)
+        pin_.setPinValue(!pinInvert_);
 
     spiSettings_ = SPISettings{speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_};
-    bus_.beginTransaction(spiSettings_);
+    if (!inTransaction_)
+        bus_.beginTransaction(spiSettings_);
+
     bus_.transfer(data, size);
 
     if (endTransfer)
     {
         bus_.endTransaction();
         pin_.setPinValue(pinInvert_);
+
+        inTransaction_ = false;
+    }
+    else
+    {
+        inTransaction_ = true;
     }
 
     return size;
@@ -151,10 +180,13 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
 
     size_t rest = largest - smallest;
 
-    pin_.setPinValue(!pinInvert_);
+    if (!inTransaction_)
+        pin_.setPinValue(!pinInvert_);
 
     spiSettings_ = SPISettings{speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_};
-    bus_.beginTransaction(spiSettings_);
+    if (!inTransaction_)
+        bus_.beginTransaction(spiSettings_);
+
     bus_.transfer(writeBuf, readBuf, smallest);
 
     if (writeSize > readSize)
@@ -172,6 +204,12 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
     {
         bus_.endTransaction();
         pin_.setPinValue(pinInvert_);
+
+        inTransaction_ = false;
+    }
+    else
+    {
+        inTransaction_ = true;
     }
 
     return true;

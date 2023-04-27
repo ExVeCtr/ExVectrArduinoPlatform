@@ -29,6 +29,9 @@ namespace VCTR
             bool msbFirst_ = false;
             size_t spiMode_ = 0;
 
+            ///If we are currently in a transaction.
+            bool inTransaction_ = false;
+
         public:
             BusSPIDevice(SPIClass &bus, const SPISettings &spiSettings, VCTR::HAL::PinGPIO &pin, bool invertSelectPin);
 
