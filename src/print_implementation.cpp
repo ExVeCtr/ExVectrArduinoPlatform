@@ -22,6 +22,13 @@ void printOutW(const char* const &item) {
 
 };
 
+void printOutD(const char* const &item) {
+
+    Serial.print("Debug: ");
+    Serial.print(item);
+
+};
+
 void printOutM(const char* const &item) {
 
     Serial.print(item);
@@ -38,6 +45,7 @@ public:
     VCTR::Core::StaticCallback_Subscriber<const char*> printSubE;
     VCTR::Core::StaticCallback_Subscriber<const char*> printSubW;
     VCTR::Core::StaticCallback_Subscriber<const char*> printSubM;
+    VCTR::Core::StaticCallback_Subscriber<const char*> printSubD;
 
     PlatformArduino() : VCTR::Core::Task_Periodic("Platform Arduino Task", 1*VCTR::Core::SECONDS, 0) {
 
@@ -53,6 +61,8 @@ public:
 
         printSubM.subscribe(VCTR::Core::getMessageTopic());
         printSubM.setCallbackFunction(printOutM);
+        printSubD.subscribe(VCTR::Core::getDebugTopic());
+        printSubD.setCallbackFunction(printOutD);
         printSubW.subscribe(VCTR::Core::getWarningTopic());
         printSubW.setCallbackFunction(printOutW);
         printSubE.subscribe(VCTR::Core::getErrorTopic());
