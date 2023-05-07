@@ -23,6 +23,9 @@ namespace VCTR
             uint32_t address_ = 0;
             size_t speed_ = 100000;
 
+            ///If we are currently in a transaction.
+            bool inTransaction_ = false;
+
         public:
             BusI2CDevice(TwoWire &bus, uint32_t address);
 
