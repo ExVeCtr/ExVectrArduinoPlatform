@@ -50,7 +50,7 @@ public:
     PlatformArduino() : VCTR::Core::Task_Periodic("Platform Arduino Task", 1*VCTR::Core::SECONDS, 0) {
 
         VCTR::Core::getSystemScheduler().addTask(*this);
-        setPriority(1000);
+        setPriority(10);
 
     }
 
@@ -68,12 +68,14 @@ public:
         printSubE.subscribe(VCTR::Core::getErrorTopic());
         printSubE.setCallbackFunction(printOutE);
 
+        setRelease(VCTR::Core::END_OF_TIME);
+
     }
 
 
     void taskThread() override {
 
-
+        setRelease(VCTR::Core::END_OF_TIME);
 
     }
 
