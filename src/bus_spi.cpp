@@ -92,9 +92,9 @@ bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
     return false;
 }
 
-BusSPIDevice::BusSPIDevice(SPIClass &bus, const SPISettings &spiSettings, VCTR::HAL::PinGPIO &pin, bool invertSelectPin) : bus_(bus), pin_(pin)
+BusSPIDevice::BusSPIDevice(SPIClass &bus, VCTR::HAL::PinGPIO &pin, bool invertSelectPin) : bus_(bus), pin_(pin)
 {
-    spiSettings_ = spiSettings;
+    //spiSettings_ = spiSettings;
     pinInvert_ = invertSelectPin;
 }
 

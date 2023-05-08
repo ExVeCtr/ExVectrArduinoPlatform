@@ -33,7 +33,7 @@ namespace VCTR
             bool inTransaction_ = false;
 
         public:
-            BusSPIDevice(SPIClass &bus, const SPISettings &spiSettings, VCTR::HAL::PinGPIO &pin, bool invertSelectPin);
+            BusSPIDevice(SPIClass &bus, VCTR::HAL::PinGPIO &pin, bool invertSelectPin);
 
             /**
              * @brief Gets the type of bus this is.
