@@ -27,7 +27,7 @@ namespace VCTR
 
             size_t speed_ = 100000;
             bool msbFirst_ = false;
-            size_t spiMode_ = 0;
+            uint8_t spiMode_ = 0;
 
             ///If we are currently in a transaction.
             bool inTransaction_ = false;
