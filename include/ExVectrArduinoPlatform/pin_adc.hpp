@@ -5,58 +5,53 @@
 
 #include "ExVectrHAL/pin_adc.hpp"
 
-
 namespace VCTR
 {
 
-namespace Platform
-{
-
-    /**
-     * @brief Arduino implementation of ADC.
-    */
-    class PinADC final : public VCTR::HAL::PinADC
+    namespace Platform
     {
-    private:
-
-        int pin_ = -1;
-        uint32_t res_ = 10;
-
-    public:
-
-        PinADC();
 
         /**
-         * Initialises ADC input.
-         * @param pin Which pin for input.
+         * @brief Arduino implementation of ADC.
          */
-        void init(int32_t pin) override;
+        class PinADC final : public VCTR::HAL::PinADC
+        {
+        private:
+            int pin_ = -1;
+            uint32_t res_ = 10;
 
-        /**
-         * @returns Which pin used as input.
-         */
-        int32_t getPin() override;
+        public:
+            PinADC();
 
-        /**
-         * @returns current pin input.
-         */
-        int32_t getPinValue() override;
+            /**
+             * Initialises ADC input.
+             * @param pin Which pin for input.
+             */
+            void init(int32_t pin) override;
 
-        /**
-         * Sets pin resolution. 
-         * @param value Which resolution the ADC will use.
-         */
-        void setPinResolution(uint32_t value) override;
+            /**
+             * @returns Which pin used as input.
+             */
+            int32_t getPin() override;
 
-        /**
-         * @returns current adc resolution.
-         */
-        uint32_t getPinResolution() override;
+            /**
+             * @returns current pin input.
+             */
+            int32_t getPinValue() override;
 
-    };
+            /**
+             * Sets pin resolution.
+             * @param value Which resolution the ADC will use.
+             */
+            void setPinResolution(uint32_t value) override;
 
-    
-}
+            /**
+             * @returns current adc resolution.
+             */
+            uint32_t getPinResolution() override;
+        };
+
+    }
 
 }
 
