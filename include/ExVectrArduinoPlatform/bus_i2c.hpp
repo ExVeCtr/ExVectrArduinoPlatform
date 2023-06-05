@@ -5,7 +5,8 @@
 #include "Wire.h"
 
 #include "ExVectrHAL/io_types.hpp"
-#include "ExVectrHAL/io.hpp"
+#include "ExVectrHAL/digital_output.hpp"
+#include "ExVectrHAL/digital_input.hpp"
 
 namespace VCTR
 {
@@ -16,7 +17,7 @@ namespace VCTR
         /**
          * @brief   Implementation of the I2C bus. Uses IOAddress as interface.
          */
-        class BusI2CDevice final : public VCTR::HAL::IO
+        class BusI2CDevice final : public VCTR::HAL::DigitalInput, public VCTR::HAL::DigitalOutput
         {
         private:
             TwoWire &bus_;
