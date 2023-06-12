@@ -13,17 +13,17 @@ bool BusSPIDevice::setInputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED:
+    case HAL::IO_PARAM_t::SPEED:
         speed_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_MSBFIRST:
+    case HAL::IO_PARAM_t::MSB_FIRST :
         msbFirst_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_SPIMODE:
+    case HAL::IO_PARAM_t::SPI_MODE :
 
         if (value == 0)
             spiMode_ = SPI_MODE0;
@@ -57,17 +57,17 @@ bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED:
+    case HAL::IO_PARAM_t::SPEED:
         speed_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_MSBFIRST:
+    case HAL::IO_PARAM_t::MSB_FIRST :
         msbFirst_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_SPIMODE:
+    case HAL::IO_PARAM_t::SPI_MODE :
 
         if (value == 0)
             spiMode_ = SPI_MODE0;
