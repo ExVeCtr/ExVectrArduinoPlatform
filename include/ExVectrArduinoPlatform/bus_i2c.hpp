@@ -5,8 +5,7 @@
 #include "Wire.h"
 
 #include "ExVectrHAL/io_types.hpp"
-#include "ExVectrHAL/digital_output.hpp"
-#include "ExVectrHAL/digital_input.hpp"
+#include "ExVectrHAL/digital_io.hpp"
 
 namespace VCTR
 {
@@ -17,7 +16,7 @@ namespace VCTR
         /**
          * @brief   Implementation of the I2C bus. Uses IOAddress as interface.
          */
-        class BusI2CDevice final : public VCTR::HAL::DigitalInput, public VCTR::HAL::DigitalOutput
+        class BusI2CDevice final : public VCTR::HAL::DigitalIO
         {
         private:
             TwoWire &bus_;
@@ -26,6 +25,8 @@ namespace VCTR
 
             ///If we are currently in a transaction.
             bool inTransaction_ = false;
+            //If the last transfer was a write.
+            bool wasWritting_ = false;
 
         public:
             BusI2CDevice(TwoWire &bus, uint32_t address);

@@ -1,3 +1,4 @@
+#include <cstring>
 #include "Arduino.h"
 
 #include "ExVectrCore/print.hpp"
@@ -96,7 +97,7 @@ bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 
 BusSPIDevice::BusSPIDevice(SPIClass &bus, VCTR::HAL::PinGPIO &pin, bool invertSelectPin) : bus_(bus), pin_(pin)
 {
-    //spiSettings_ = spiSettings;
+    // spiSettings_ = spiSettings;
     pinInvert_ = invertSelectPin;
 }
 
@@ -118,7 +119,6 @@ size_t BusSPIDevice::writeData(const void *data, size_t size, bool endTransfer)
     spiSettings_ = SPISettings{speed_, uint8_t(msbFirst_ ? MSBFIRST : LSBFIRST), spiMode_};
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
-
 
     bus_.transfer(buffer, size);
 

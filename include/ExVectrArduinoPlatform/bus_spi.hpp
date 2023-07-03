@@ -6,8 +6,7 @@
 
 #include "ExVectrHAL/pin_gpio.hpp"
 #include "ExVectrHAL/io_types.hpp"
-#include "ExVectrHAL/digital_output.hpp"
-#include "ExVectrHAL/digital_input.hpp"
+#include "ExVectrHAL/digital_io.hpp"
 
 namespace VCTR
 {
@@ -18,7 +17,7 @@ namespace VCTR
         /**
          * @brief   Implementation of the SPI bus. Uses IO as interface.
          */
-        class BusSPIDevice final : public VCTR::HAL::DigitalInput, public VCTR::HAL::DigitalOutput
+        class BusSPIDevice final : public VCTR::HAL::DigitalIO
         {
         private:
             SPIClass &bus_;
