@@ -13,7 +13,7 @@ bool BusI2CDevice::setInputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED :
+    case HAL::IO_PARAM_t::SPEED :
         speed_ = value;
         bus_.setClock(speed_);
         return true;
@@ -35,7 +35,7 @@ bool BusI2CDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED :
+    case HAL::IO_PARAM_t::SPEED :
         speed_ = value;
         bus_.setClock(speed_);
         return true;
