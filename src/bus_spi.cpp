@@ -1,3 +1,6 @@
+#include <cstring>
+#include "Arduino.h"
+
 #include "ExVectrCore/print.hpp"
 
 #include "ExVectrArduinoPlatform/bus_spi.hpp"
@@ -13,17 +16,17 @@ bool BusSPIDevice::setInputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED:
+    case HAL::IO_PARAM_t::SPEED:
         speed_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_MSBFIRST:
+    case HAL::IO_PARAM_t::MSB_FIRST:
         msbFirst_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_SPIMODE:
+    case HAL::IO_PARAM_t::SPI_MODE:
 
         if (value == 0)
             spiMode_ = SPI_MODE0;
@@ -57,17 +60,17 @@ bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::PARAM_SPEED:
+    case HAL::IO_PARAM_t::SPEED:
         speed_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_MSBFIRST:
+    case HAL::IO_PARAM_t::MSB_FIRST:
         msbFirst_ = value;
         return true;
         break;
 
-    case HAL::IO_PARAM_t::PARAM_SPIMODE:
+    case HAL::IO_PARAM_t::SPI_MODE:
 
         if (value == 0)
             spiMode_ = SPI_MODE0;
@@ -178,6 +181,8 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
         largest = writeSize;
     }
 
+    memcpy(readBuf, writeBuf, smallest); //Need to do this due to the limited spi api from ESP32 arduino.
+
     size_t rest = largest - smallest;
 
     if (!inTransaction_)
@@ -187,7 +192,7 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
 
-    bus_.transfer(writeBuf, readBuf, smallest);
+    //bus_.transfer(writeBuf, readBuf, smallest);
 
     if (writeSize > readSize)
     {

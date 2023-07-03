@@ -6,7 +6,7 @@
 
 #include "ExVectrHAL/pin_gpio.hpp"
 #include "ExVectrHAL/io_types.hpp"
-#include "ExVectrHAL/io.hpp"
+#include "ExVectrHAL/digital_io.hpp"
 
 namespace VCTR
 {
@@ -17,7 +17,7 @@ namespace VCTR
         /**
          * @brief   Implementation of the SPI bus. Uses IO as interface.
          */
-        class BusSPIDevice final : public VCTR::HAL::IO
+        class BusSPIDevice final : public VCTR::HAL::DigitalIO
         {
         private:
             SPIClass &bus_;
@@ -103,7 +103,7 @@ namespace VCTR
              *
              * @return true if writing and reading was successfull.
              */
-            bool writeRead(const void *writeBuf, void *readBuf, size_t writeSize, size_t readSize, bool endTransfer = true) override;
+            bool writeRead(const void *writeBuf, void *readBuf, size_t writeSize, size_t readSize, bool endTransfer = true);
         };
 
     }
