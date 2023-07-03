@@ -15,7 +15,7 @@ bool BusI2CDevice::setInputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
-    case HAL::IO_PARAM_t::SPEED :
+    case HAL::IO_PARAM_t::SPEED:
         speed_ = value;
         bus_.setClock(speed_);
         return true;
@@ -63,12 +63,12 @@ int32_t BusI2CDevice::writable()
 size_t BusI2CDevice::writeData(const void *data, size_t size, bool endTransfer)
 {
 
-    //if (!inTransaction_)
+    // if (!inTransaction_)
     bus_.beginTransmission(static_cast<uint8_t>(address_));
 
     size_t ret = bus_.write((uint8_t *)data, size);
 
-    //if (endTransfer)
+    // if (endTransfer)
     bus_.endTransmission();
 
     /*if (bus_.endTransmission(!endTransfer) != 0) //Failure
@@ -81,7 +81,6 @@ size_t BusI2CDevice::writeData(const void *data, size_t size, bool endTransfer)
     inTransaction_ = !endTransfer;
 
     return ret;
-
 }
 
 size_t BusI2CDevice::readable()
@@ -90,10 +89,10 @@ size_t BusI2CDevice::readable()
 }
 
 size_t BusI2CDevice::readData(void *data, size_t size, bool endTransfer)
-{   
+{
 
-    //if (inTransaction_)
-        //bus_.endTransmission();
+    // if (inTransaction_)
+    // bus_.endTransmission();
 
     inTransaction_ = false;
 
@@ -103,5 +102,4 @@ size_t BusI2CDevice::readData(void *data, size_t size, bool endTransfer)
     for (i = 0; bus_.available() > 0 && i < size; i++)
         ((uint8_t *)data)[i] = bus_.read();
     return bus_.available() ? 0 : i; // If more to read then requested something is wrong. In that case return 0 to indicate error.
-    
 }

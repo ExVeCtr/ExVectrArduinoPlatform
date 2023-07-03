@@ -97,7 +97,7 @@ bool BusSPIDevice::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 
 BusSPIDevice::BusSPIDevice(SPIClass &bus, VCTR::HAL::PinGPIO &pin, bool invertSelectPin) : bus_(bus), pin_(pin)
 {
-    //spiSettings_ = spiSettings;
+    // spiSettings_ = spiSettings;
     pinInvert_ = invertSelectPin;
 }
 
@@ -119,7 +119,6 @@ size_t BusSPIDevice::writeData(const void *data, size_t size, bool endTransfer)
     spiSettings_ = SPISettings{speed_, uint8_t(msbFirst_ ? MSBFIRST : LSBFIRST), spiMode_};
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
-
 
     bus_.transfer(buffer, size);
 
@@ -181,7 +180,7 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
         largest = writeSize;
     }
 
-    memcpy(readBuf, writeBuf, smallest); //Need to do this due to the limited spi api from ESP32 arduino.
+    memcpy(readBuf, writeBuf, smallest); // Need to do this due to the limited spi api from ESP32 arduino.
 
     size_t rest = largest - smallest;
 
@@ -192,7 +191,7 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
 
-    //bus_.transfer(writeBuf, readBuf, smallest);
+    // bus_.transfer(writeBuf, readBuf, smallest);
 
     if (writeSize > readSize)
     {
