@@ -1,3 +1,5 @@
+#include "Arduino.h"
+
 #include "ExVectrCore/print.hpp"
 
 #include "ExVectrArduinoPlatform/bus_i2c.hpp"
