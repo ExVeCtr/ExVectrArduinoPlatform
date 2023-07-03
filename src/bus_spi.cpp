@@ -1,3 +1,5 @@
+#include "Arduino.h"
+
 #include "ExVectrCore/print.hpp"
 
 #include "ExVectrArduinoPlatform/bus_spi.hpp"
@@ -168,17 +170,13 @@ size_t BusSPIDevice::readData(void *data, size_t size, bool endTransfer)
 }
 
 bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSize, size_t readSize, bool endTransfer)
-{
+{   
 
-    size_t smallest = writeSize;
-    size_t largest = readSize;
-    if (smallest < readSize)
-    {
-        smallest = readSize;
-        largest = writeSize;
-    }
-
-    size_t rest = largest - smallest;
+    size_t bufLen = writeSize;
+    if (readSize > writeSize)
+        bufLen = readSize;
+    uint8_t buffer[bufLen];
+    memcpy(buffer, writeBuf, bufLen);
 
     if (!inTransaction_)
         pin_.setPinValue(!pinInvert_);
@@ -187,18 +185,7 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
 
-    bus_.transfer(writeBuf, readBuf, smallest);
-
-    if (writeSize > readSize)
-    {
-        uint8_t buffer[rest];
-        memcpy(buffer, writeBuf + smallest, writeSize);
-        bus_.transfer(buffer, rest);
-    }
-    else if (readSize > writeSize)
-    {
-        bus_.transfer(readBuf + smallest, rest);
-    }
+    bus_.transfer(buffer, bufLen);
 
     if (endTransfer)
     {
@@ -212,5 +199,8 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
         inTransaction_ = true;
     }
 
+    memcpy(readBuf, buffer, readSize);
+
     return true;
+    
 }
