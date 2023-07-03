@@ -69,7 +69,7 @@ namespace VCTR
 
         
 
-        class PWM_SW_Thread: public PWM_SW, public Core::Task
+        class PWM_SW_Thread: public PWM_SW, public Core::Scheduler::Task
         {
             
             int64_t nextUpdate = 0;
