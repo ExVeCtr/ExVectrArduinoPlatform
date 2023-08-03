@@ -17,14 +17,14 @@ namespace VCTR
         /**
          * @brief   Implementation of a serial connection. Uses IO as interface.
          */
-        class BusSerial final : public VCTR::HAL::DigitalIO
+        class BusUART final : public VCTR::HAL::DigitalIO
         {
         private:
             
             HardwareSerial &bus_;
 
         public:
-            BusSerial(HardwareSerial &bus);
+            BusUART(HardwareSerial &bus);
 
             /**
              * @brief Gets the type of bus this is.

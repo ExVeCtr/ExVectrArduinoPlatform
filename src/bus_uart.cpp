@@ -3,16 +3,16 @@
 
 #include "ExVectrCore/print.hpp"
 
-#include "ExVectrArduinoPlatform/bus_serial.hpp"
+#include "ExVectrArduinoPlatform/bus_uart.hpp"
 
 using namespace VCTR::Platform;
 
-VCTR::HAL::IO_TYPE_t BusSerial::getInputType() const
+VCTR::HAL::IO_TYPE_t BusUART::getInputType() const
 {
     return HAL::IO_TYPE_t::BUS_UART;
 }
 
-bool BusSerial::setInputParam(HAL::IO_PARAM_t param, int32_t value)
+bool BusUART::setInputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
@@ -28,12 +28,12 @@ bool BusSerial::setInputParam(HAL::IO_PARAM_t param, int32_t value)
     return false;
 }
 
-VCTR::HAL::IO_TYPE_t BusSerial::getOutputType() const
+VCTR::HAL::IO_TYPE_t BusUART::getOutputType() const
 {
     return HAL::IO_TYPE_t::BUS_UART;
 }
 
-bool BusSerial::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
+bool BusUART::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 {
     switch (param)
     {
@@ -49,32 +49,32 @@ bool BusSerial::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
     return false;
 }
 
-BusSerial::BusSerial(HardwareSerial &bus) : bus_(bus)
+BusUART::BusUART(HardwareSerial &bus) : bus_(bus)
 {}
 
-int32_t BusSerial::writable()
+int32_t BusUART::writable()
 {
     return bus_.availableForWrite();
 }
 
-size_t BusSerial::writeData(const void *data, size_t size, bool endTransfer)
+size_t BusUART::writeData(const void *data, size_t size, bool endTransfer)
 {
 
     return bus_.write((const uint8_t *)data, size);
 }
 
-size_t BusSerial::readable()
+size_t BusUART::readable()
 {
     return 1;
 }
 
-size_t BusSerial::readData(void *data, size_t size, bool endTransfer)
+size_t BusUART::readData(void *data, size_t size, bool endTransfer)
 {
 
     return bus_.readBytes((uint8_t *)data, size);;
 }
 
-bool BusSerial::writeRead(const void *writeBuf, void *readBuf, size_t writeSize, size_t readSize, bool endTransfer)
+bool BusUART::writeRead(const void *writeBuf, void *readBuf, size_t writeSize, size_t readSize, bool endTransfer)
 {   
 
     auto writeRet = bus_.write((const uint8_t *)writeBuf, writeSize);
