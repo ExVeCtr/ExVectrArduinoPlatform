@@ -9,6 +9,7 @@
 
 #include "ExVectrArduinoPlatform/bus_i2c.hpp"
 #include "ExVectrArduinoPlatform/bus_spi.hpp"
+#include "ExVectrArduinoPlatform/bus_uart.hpp"
 
 namespace VCTR
 {

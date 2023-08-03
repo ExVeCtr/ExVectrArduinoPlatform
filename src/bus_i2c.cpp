@@ -63,20 +63,22 @@ int32_t BusI2CDevice::writable()
 size_t BusI2CDevice::writeData(const void *data, size_t size, bool endTransfer)
 {
 
-    // if (!inTransaction_)
-    bus_.beginTransmission(static_cast<uint8_t>(address_));
+    if (!inTransaction_)
+        bus_.beginTransmission(static_cast<uint8_t>(address_));
 
     size_t ret = bus_.write((uint8_t *)data, size);
 
-    // if (endTransfer)
-    bus_.endTransmission();
+    if (endTransfer) {
+        if (bus_.endTransmission() != 0) //Failure
+        {
+            bus_.endTransmission(true); //Try to force transmittion end.
+            inTransaction_ = false;
+            return 0;
+        }
+    }
+        
 
-    /*if (bus_.endTransmission(!endTransfer) != 0) //Failure
-    {
-        bus_.endTransmission(true); //Try to force transmittion end.
-        inTransaction_ = false;
-        return 0;
-    }*/
+    /**/
 
     inTransaction_ = !endTransfer;
 
@@ -91,8 +93,8 @@ size_t BusI2CDevice::readable()
 size_t BusI2CDevice::readData(void *data, size_t size, bool endTransfer)
 {
 
-    // if (inTransaction_)
-    // bus_.endTransmission();
+    if (inTransaction_)
+        bus_.endTransmission();
 
     inTransaction_ = false;
 
