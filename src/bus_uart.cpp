@@ -65,7 +65,7 @@ size_t BusUART::writeData(const void *data, size_t size, bool endTransfer)
 
 size_t BusUART::readable()
 {
-    return 1;
+    return bus_.available();
 }
 
 size_t BusUART::readData(void *data, size_t size, bool endTransfer)
