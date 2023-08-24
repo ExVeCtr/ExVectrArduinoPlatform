@@ -55,9 +55,9 @@ namespace VCTR
             bool setOutputParam(HAL::IO_PARAM_t param, int32_t value) override;
 
             /**
-             * @returns number of bytes that can be written. -1 means no limit to data size.
+             * @returns number of bytes that can be written.
              */
-            int32_t writable() override;
+            size_t writable() override;
 
             /**
              * @brief Writes the data from data pointer.
@@ -70,7 +70,7 @@ namespace VCTR
             size_t writeData(const void *data, size_t size, bool endTransfer = true) override;
 
             /**
-             * @returns the number of bytes available to read. Or 1 or 0 for boolean.
+             * @returns the number of bytes available to read.
              */
             size_t readable() override;
 
