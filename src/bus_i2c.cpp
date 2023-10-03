@@ -55,9 +55,9 @@ BusI2CDevice::BusI2CDevice(TwoWire &bus, uint32_t address) : bus_(bus)
     address_ = address;
 }
 
-int32_t BusI2CDevice::writable()
+size_t BusI2CDevice::writable()
 {
-    return -1;
+    return 1;
 }
 
 size_t BusI2CDevice::writeData(const void *data, size_t size, bool endTransfer)

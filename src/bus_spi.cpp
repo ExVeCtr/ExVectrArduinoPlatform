@@ -101,9 +101,9 @@ BusSPIDevice::BusSPIDevice(SPIClass &bus, VCTR::HAL::PinGPIO &pin, bool invertSe
     pinInvert_ = invertSelectPin;
 }
 
-int32_t BusSPIDevice::writable()
+size_t BusSPIDevice::writable()
 {
-    return -1;
+    return 1;
 }
 
 size_t BusSPIDevice::writeData(const void *data, size_t size, bool endTransfer)

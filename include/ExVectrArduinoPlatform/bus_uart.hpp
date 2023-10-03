@@ -57,7 +57,7 @@ namespace VCTR
             /**
              * @returns number of bytes that can be written. -1 means no limit to data size.
              */
-            int32_t writable() override;
+            size_t writable() override;
 
             /**
              * @brief Writes the data from data pointer.
