@@ -69,8 +69,10 @@ size_t BusI2CDevice::writeData(const void *data, size_t size, bool endTransfer)
     size_t ret = bus_.write((uint8_t *)data, size);
 
     if (endTransfer) {
-        if (bus_.endTransmission() != 0) //Failure
+        auto ret = bus_.endTransmission();
+        if (ret != 0) //Failure
         {
+            LOG_MSG("I2C Busdevice failed to end transmission. Error code: %d\n", ret);
             bus_.endTransmission(true); //Try to force transmittion end.
             inTransaction_ = false;
             return 0;
