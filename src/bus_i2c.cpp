@@ -57,7 +57,7 @@ BusI2CDevice::BusI2CDevice(TwoWire &bus, uint32_t address) : bus_(bus)
 
 size_t BusI2CDevice::writable()
 {
-    return 1;
+    return 32; // Maybe change this to something else. arduino might support availableForWrite() or something.
 }
 
 size_t BusI2CDevice::writeData(const void *data, size_t size, bool endTransfer)

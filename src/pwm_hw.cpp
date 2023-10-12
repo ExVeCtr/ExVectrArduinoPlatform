@@ -13,16 +13,17 @@ namespace VCTR
         bool PinPWM_HW::systemInitialised_ = false;
         uint16_t PinPWM_HW::channelRes_[16];
 
+        PinPWM_HW::PinPWM_HW(int32_t pin) : HAL::PinPWM(pin)
+        {}
+
         PinPWM_HW::~PinPWM_HW()
         {
             if (!systemInitialised_)
                 return;
         }
 
-        void PinPWM_HW::init(int32_t pin)
+        void PinPWM_HW::init()
         {
-
-            pin_ = pin;
 
             pinMode(pin_, OUTPUT);
 
@@ -52,7 +53,7 @@ namespace VCTR
             if (!found)
             {
                 channel_ = 15;
-                Core::printW("PinPWM_HW: Was unable to find an unused channel at init() for pin: %d. Using channel: %d.\n", pin, channel_);
+                Core::printW("PinPWM_HW: Was unable to find an unused channel at init() for pin: %d. Using channel: %d.\n", pin_, channel_);
             }
 
             if (found)
@@ -73,11 +74,6 @@ namespace VCTR
         size_t PinPWM_HW::getChannel()
         {
             return channel_;
-        }
-
-        int32_t PinPWM_HW::getPin()
-        {
-            return pin_;
         }
 
         void PinPWM_HW::setPinValue(float value)

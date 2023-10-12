@@ -2,32 +2,30 @@
 
 #include "ExVectrArduinoPlatform/pin_adc.hpp"
 
-
 using namespace VCTR::Platform;
 
-
-PinADC::PinADC() {
-    pin_ = -1;
+PinADC::PinADC(int32_t pin) : HAL::PinADC(pin)
+{
     res_ = 10;
 }
 
-void PinADC::init(int32_t pin) {
-    pinMode(pin, INPUT);
+void PinADC::init()
+{
+    pinMode(pin_, INPUT);
 }
 
-int32_t PinADC::getPin() {
-    return pin_;
-}
-
-int32_t PinADC::getPinValue() {
+int32_t PinADC::getPinValue()
+{
     return analogRead(pin_);
 }
 
-void PinADC::setPinResolution(uint32_t value) {
+void PinADC::setPinResolution(uint32_t value)
+{
     res_ = value;
     analogReadResolution(value);
 }
 
-uint32_t PinADC::getPinResolution() {
+uint32_t PinADC::getPinResolution()
+{
     return res_;
 }

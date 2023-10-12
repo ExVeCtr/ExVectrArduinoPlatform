@@ -23,16 +23,18 @@ namespace VCTR
             static bool systemInitialised_;
 
             size_t channel_ = 0;
-            int32_t pin_ = 0;
 
         public:
+
+            PinPWM_HW(int32_t pin);
+        
             ~PinPWM_HW();
 
             /**
              * Initialises PWM output. Automatically allocates ESP32 channels.
              * @param pin Which pin to control.
              */
-            void init(int32_t pin) override;
+            void init() override;
 
             /**
              * @brief Sets the channel to which this pin is connected to.
@@ -46,11 +48,6 @@ namespace VCTR
              * @return channel number this pin is connected to.
              */
             size_t getChannel();
-
-            /**
-             * @returns Which pin this controls.
-             */
-            int32_t getPin() override;
 
             /**
              * Sets pin value. From 0 to 1.
