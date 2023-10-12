@@ -18,24 +18,17 @@ namespace VCTR
         class PinPWM final : public VCTR::HAL::PinPWM
         {
         private:
-            int pin_ = -1;
             float value_ = 0;
             static uint32_t res_;
             float freq_ = 200;
 
         public:
-            PinPWM();
+            PinPWM(int32_t pin);
 
             /**
              * Initialises PWM output.
-             * @param pin Which pin to control.
              */
-            void init(int32_t pin) override;
-
-            /**
-             * @returns Which pin this controls.
-             */
-            int32_t getPin() override;
+            void init() override;
 
             /**
              * Sets pin value. Duty cycle from 0 to 1.
