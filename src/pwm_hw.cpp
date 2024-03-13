@@ -67,6 +67,11 @@ namespace VCTR
 
         }
 
+        int32_t PinPWM_HW::getPin()
+        {
+            return pin_;
+        }
+
         void PinPWM_HW::setChannel(size_t channel)
         {
             ledcAttachPin(pin_, channel);

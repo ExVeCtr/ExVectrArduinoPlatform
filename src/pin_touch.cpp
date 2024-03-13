@@ -12,7 +12,9 @@ void PinTouch::init(int32_t pin)
 {
     pin_ = pin;
     pinMode(pin_, INPUT);
+#ifndef CONFIG_IDF_TARGET_ESP32C3
     touchRead(pin_); // First read is usually wrong.
+#endif
 }
 
 /**
@@ -50,7 +52,11 @@ size_t PinTouch::readValue(float* values, size_t size)
         return 0;
     }
 
+#ifndef CONFIG_IDF_TARGET_ESP32C3
+
     values[0] = touchRead(pin_);
+
+#endif  
 
     return 1;
 

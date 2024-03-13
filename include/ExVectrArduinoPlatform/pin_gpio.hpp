@@ -33,6 +33,11 @@ namespace VCTR
              * @param pin Which pin to control.
              */
             void init(int32_t pin, HAL::GPIO_IOMODE_t mode) override;
+            
+            /**
+             * @returns Which pin this controls.
+             */
+            int32_t getPin() override;
 
             /**
              * Sets pin value.

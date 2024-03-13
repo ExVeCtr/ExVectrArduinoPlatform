@@ -39,6 +39,11 @@ namespace VCTR
             void init(int32_t pin) override;
 
             /**
+             * @returns Which pin this controls.
+             */
+            int32_t getPin() override;
+
+            /**
              * @brief Sets the channel to which this pin is connected to.
              * @note Connecting two PinPWM_HW instances to the same channel will make each pin change dutycycle and frequency of other pins connected to this channel.
              * @param channel

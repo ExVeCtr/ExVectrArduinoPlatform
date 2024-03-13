@@ -18,6 +18,11 @@ void PinGPIO::init(int32_t pin, HAL::GPIO_IOMODE_t mode)
         digitalWrite(pin_, LOW);
 }
 
+int32_t PinGPIO::getPin()
+{
+    return pin_;
+}
+
 void PinGPIO::setPinValue(bool value)
 {
     if (ioMode_ != HAL::GPIO_IOMODE_t::IOMODE_OUTPUT)
