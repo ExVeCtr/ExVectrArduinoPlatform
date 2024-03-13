@@ -21,7 +21,7 @@ void PinTouch::init(int32_t pin)
  */
 VCTR::HAL::IO_TYPE_t PinTouch::getInputType() const
 {
-    return HAL::IO_TYPE_t::ANALOG_TOUCH;
+    return HAL::IO_TYPE_t::OTHER;
 }
 
 /**

@@ -4,11 +4,11 @@
 
 using namespace VCTR::Platform;
 
-PinGPIO::PinGPIO(int32_t pin) : HAL::PinGPIO(pin) {}
+PinGPIO::PinGPIO() {}
 
-void PinGPIO::init(HAL::GPIO_IOMODE_t mode)
+void PinGPIO::init(int32_t pin, HAL::GPIO_IOMODE_t mode)
 {
-
+    pin_ = pin;
     ioMode_ = mode;
     pinPull_ = HAL::GPIO_PULL_t::PULL_NONE;
 

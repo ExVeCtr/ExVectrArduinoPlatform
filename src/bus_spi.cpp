@@ -101,7 +101,7 @@ BusSPIDevice::BusSPIDevice(SPIClass &bus, VCTR::HAL::PinGPIO &pin, bool invertSe
     pinInvert_ = invertSelectPin;
 }
 
-size_t BusSPIDevice::writable()
+int32_t BusSPIDevice::writable()
 {
     return 32; // Maybe change this to something else. arduino might support availableForWrite() or something.
 }

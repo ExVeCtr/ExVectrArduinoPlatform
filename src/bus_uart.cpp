@@ -52,7 +52,7 @@ bool BusUART::setOutputParam(HAL::IO_PARAM_t param, int32_t value)
 BusUART::BusUART(HardwareSerial &bus) : bus_(bus)
 {}
 
-size_t BusUART::writable()
+int32_t BusUART::writable()
 {
     return 1;
 }

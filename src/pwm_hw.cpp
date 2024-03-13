@@ -13,7 +13,7 @@ namespace VCTR
         bool PinPWM_HW::systemInitialised_ = false;
         uint16_t PinPWM_HW::channelRes_[16];
 
-        PinPWM_HW::PinPWM_HW(int32_t pin) : HAL::PinPWM(pin)
+        PinPWM_HW::PinPWM_HW()
         {}
 
         PinPWM_HW::~PinPWM_HW()
@@ -22,9 +22,10 @@ namespace VCTR
                 return;
         }
 
-        void PinPWM_HW::init()
+        void PinPWM_HW::init(int32_t pin)
         {
 
+            pin_ = pin;
             pinMode(pin_, OUTPUT);
 
             if (!systemInitialised_) // Initialise PWM HW if not done yet. Set used channel array elements to false.

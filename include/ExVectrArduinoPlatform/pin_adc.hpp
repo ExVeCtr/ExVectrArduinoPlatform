@@ -17,15 +17,16 @@ namespace VCTR
         class PinADC final : public VCTR::HAL::PinADC
         {
         private:
+            int32_t pin_ = -1;
             uint32_t res_ = 10;
 
         public:
-            PinADC(int32_t pin);
+            PinADC();
 
             /**
              * Initialises ADC input.
              */
-            void init() override;
+            void init(int32_t pin) override;
 
             /**
              * @returns current pin input.
