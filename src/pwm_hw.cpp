@@ -12,6 +12,7 @@ namespace VCTR
         bool PinPWM_HW::channelUsed_[16];
         bool PinPWM_HW::systemInitialised_ = false;
         uint16_t PinPWM_HW::channelRes_[16];
+        uint32_t PinPWM_HW::channelFrq_[16];
 
         PinPWM_HW::PinPWM_HW()
         {}
@@ -35,11 +36,12 @@ namespace VCTR
                 {
                     channelUsed_[i] = false;
                     channelRes_[i] = 8;
+                    channelFrq_[i] = 500;
                 }
             }
 
-            // Next search for next available channel.
-            size_t channel_ = 0;
+            // Search for next available channel.
+            channel_ = 0;
             bool found = false;
             for (size_t i = 0; i < 16; i++)
             {
@@ -74,7 +76,9 @@ namespace VCTR
 
         void PinPWM_HW::setChannel(size_t channel)
         {
-            ledcAttachPin(pin_, channel);
+            channel_ = channel;
+            ledcDetachPin(pin_);
+            ledcAttachPin(pin_, channel_);
         }
 
         size_t PinPWM_HW::getChannel()
@@ -94,18 +98,20 @@ namespace VCTR
 
         void PinPWM_HW::setPinFrequency(float value)
         {
-            ledcChangeFrequency(channel_, value, 8);
+            //ledcChangeFrequency(channel_, uint32_t(value), channelRes_[channel_]);
+            channelFrq_[channel_] = value;
+            ledcSetup(channel_, value, channelRes_[channel_]);
         }
 
         float PinPWM_HW::getPinFrequency()
         {
-            return ledcReadFreq(channel_);
+            return channelFrq_[channel_];
         }
 
         void PinPWM_HW::setPinResolution(uint32_t value)
         {
             channelRes_[channel_] = value;
-            ledcChangeFrequency(channel_, getPinFrequency(), value);
+            ledcSetup(channel_, channelFrq_[channel_], value);
         }
 
         uint32_t PinPWM_HW::getPinResolution()

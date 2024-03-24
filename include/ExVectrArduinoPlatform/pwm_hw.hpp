@@ -20,6 +20,7 @@ namespace VCTR
         private:
             static bool channelUsed_[16];
             static uint16_t channelRes_[16];
+            static uint32_t channelFrq_[16];
             static bool systemInitialised_;
 
             int32_t pin_ = -1;
