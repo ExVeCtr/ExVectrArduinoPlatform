@@ -116,7 +116,7 @@ size_t BusSPIDevice::writeData(const void *data, size_t size, bool endTransfer)
     if (!inTransaction_)
         pin_.setPinValue(!pinInvert_);
 
-    spiSettings_ = SPISettings{speed_, uint8_t(msbFirst_ ? MSBFIRST : LSBFIRST), spiMode_};
+    spiSettings_ = SPISettings(speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_);
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
 
@@ -148,7 +148,7 @@ size_t BusSPIDevice::readData(void *data, size_t size, bool endTransfer)
     if (!inTransaction_)
         pin_.setPinValue(!pinInvert_);
 
-    spiSettings_ = SPISettings{speed_, uint8_t(msbFirst_ ? MSBFIRST : LSBFIRST), spiMode_};
+    spiSettings_ = SPISettings(speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_);
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
 
@@ -181,7 +181,7 @@ bool BusSPIDevice::writeRead(const void *writeBuf, void *readBuf, size_t writeSi
     if (!inTransaction_)
         pin_.setPinValue(!pinInvert_);
 
-    spiSettings_ = SPISettings{speed_, uint8_t(msbFirst_ ? MSBFIRST : LSBFIRST), spiMode_};
+    spiSettings_ = SPISettings(speed_, msbFirst_ ? MSBFIRST : LSBFIRST, spiMode_);
     if (!inTransaction_)
         bus_.beginTransaction(spiSettings_);
 

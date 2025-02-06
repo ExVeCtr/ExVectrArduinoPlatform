@@ -1,5 +1,7 @@
 #include "Arduino.h"
 
+#include "ExvectrCore/print.hpp"
+
 #include "ExVectrArduinoPlatform/pin_pwm.hpp"
 
 using namespace VCTR::Platform;
@@ -37,7 +39,8 @@ float PinPWM::getPinValue()
 void PinPWM::setPinFrequency(float value)
 {
     freq_ = value;
-    analogWriteFrequency(pin_, freq_);
+    Core::printW("Standard Arduino Platform does not support changing PWM frequency");
+    //analogWriteFrequency(pin_, freq_);
 }
 
 float PinPWM::getPinFrequency()
