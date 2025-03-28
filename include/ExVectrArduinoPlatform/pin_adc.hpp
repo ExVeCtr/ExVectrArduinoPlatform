@@ -21,12 +21,12 @@ namespace VCTR
             uint32_t res_ = 10;
 
         public:
-            PinADC();
+            PinADC(int32_t pin);
 
             /**
              * Initialises ADC input.
              */
-            void init(int32_t pin) override;
+            void init() override;
 
             /**
              * @returns current pin input.

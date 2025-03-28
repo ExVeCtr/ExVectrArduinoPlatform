@@ -26,13 +26,13 @@ namespace VCTR
             bool currentValue_ = false;
 
         public:
-            PinGPIO();
+            PinGPIO(int32_t pin);
 
             /**
              * Initialises GPIO.
              * @param pin Which pin to control.
              */
-            void init(int32_t pin, HAL::GPIO_IOMODE_t mode) override;
+            void init(HAL::GPIO_IOMODE_t mode) override;
             
             /**
              * @returns Which pin this controls.

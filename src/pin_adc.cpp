@@ -4,14 +4,13 @@
 
 using namespace VCTR::Platform;
 
-PinADC::PinADC()
+PinADC::PinADC(int32_t pin) : HAL::PinADC(pin)
 {
     res_ = 10;
 }
 
-void PinADC::init(int32_t pin)
+void PinADC::init()
 {   
-    pin_ = pin;
     pinMode(pin_, INPUT);
 }
 
