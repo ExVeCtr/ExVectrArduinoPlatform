@@ -11,3 +11,4 @@ endfunction()
 
 addExVectrDependency(ExVectrHAL)
 addExVectrDependency(ExVectrCore)
+addExVectrDependency(ExVectrData)
