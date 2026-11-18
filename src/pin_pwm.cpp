@@ -39,8 +39,8 @@ float PinPWM::getPinValue()
 void PinPWM::setPinFrequency(float value)
 {
     freq_ = value;
-    Core::printW("Standard Arduino Platform does not support changing PWM frequency");
-    // analogWriteFrequency(pin_, freq_);
+    // Teensy supports per-pin PWM frequency changes.
+    analogWriteFrequency(pin_, freq_);
 }
 
 float PinPWM::getPinFrequency()
