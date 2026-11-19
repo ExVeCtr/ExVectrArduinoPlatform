@@ -59,6 +59,9 @@ public:
 
         Serial.begin(115200);
 
+#ifndef EXVECTR_ARDUINO_NO_SERIAL_CONSOLE
+        // Console text on USB Serial. Define EXVECTR_ARDUINO_NO_SERIAL_CONSOLE (build flag) when Serial carries a
+        // binary protocol: the print topics then have no platform subscriber and the application routes them.
         printSubM.subscribe(VCTR::Core::getMessageTopic());
         printSubM.setCallbackFunction(printOutM);
         printSubD.subscribe(VCTR::Core::getDebugTopic());
@@ -67,6 +70,7 @@ public:
         printSubW.setCallbackFunction(printOutW);
         printSubE.subscribe(VCTR::Core::getErrorTopic());
         printSubE.setCallbackFunction(printOutE);
+#endif
 
         setRelease(VCTR::Core::END_OF_TIME);
 
